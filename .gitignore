@@ -4,6 +4,9 @@
 *.dll
 *.so
 *.dylib
+*.scssc
+*.css.map
+*.swp
 
 # Test binary, build with `go test -c`
 *.test
