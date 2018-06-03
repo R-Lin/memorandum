@@ -1,6 +1,6 @@
 <div>
 	<label></label>
-	<input type="button" value="新建任务" onclick="addTask(event)">
+	<button onclick="addTask(event)">新建任务</button>
 	<form action="" method="POST" id="addTask" hidden>
 		<div>
 			<label>
@@ -34,12 +34,12 @@
 			</label>
 		</div>
 		<input type="button" value="取消任务" onclick="taskCleanAndHiden()">
-		<input type="submit" value="增加任务">
+		<input type="submit" style="background-color: #c37574; color: #fff; border-radius: 4px" value="添加任务">
 	</form>
 </div>
 <hr>
 <div class="runnging-task-block" >
-	<label >任务状态：
+	<label style="margin: 0 0 0 5px;">任务状态：
 		<select onchange="listTask(value)">
 			<option value="all">全部</option>
 			<option value="计划中">计划中</option>

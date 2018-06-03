@@ -3,15 +3,27 @@ html, body{
 	margin: 0;
 	height: 100%;
 	padding: 0;
-	font-family: “Microsoft YaHei”;
+	font-family: "Open Sans", sans-serif;
+	background-color: #E6E6E6;
 
 }
 
 header{
-	background-color: #109b9c;
+	background-color: #3a3636;
 	height: 50px;
 }
 
+button, select{
+    font-size: 15px;
+    line-height: 20px;
+    border-radius: 4px;
+}
+
+nput:-webkit-autofill {
+background-color: #FAFFBD;
+background-image: none;
+color: #000;
+}
 
 .main{
 	display: flex;
@@ -51,19 +63,28 @@ header{
 		flex: auto;
 		margin: 20px;
 	    padding: 20px;
-	    background-color: #caeff1;
+	    background-color: #fff;;
 
 	    form{
 	    	margin: 0 0 0 50px;
 	    	div{
-	    		margin: 5px 0;
+	    		margin: 10px 0;
 	    		input{
     				padding: 2px 0 2px 5px;
 	    		}
 	    	}
+	    	input{
+	    		font-size: 15px;
+	    	}
+	    	input[type=button]{
+	    		padding: 2px;
+	    		border-radius: 4px;
+	    	}
 	    }
+	    
 	    .runnging-task-block{
 	    	.runnging-task-item{
+
 	    		margin: 0 0 0 5px;
 
 	    		hr{
@@ -72,9 +93,13 @@ header{
 	    		.stausSpan{
 
 	    		}
+
 	    		.stausSpan:hover{
 	    			cursor: pointer;
 
+	    		}
+	    		.priority-star{
+	    			color: #d65412
 	    		}
 	    		.currentStatus{
 	    			color: #fff;
@@ -91,7 +116,12 @@ header{
 
 	    				td,th{
 	    					padding: 10px 0 5px 0;
+	    					.detele-task{
+	    						background-color: #ff3737;
+    							color: #fff;
+	    					}
 	    				}
+
 
 	    			}
 

@@ -1,13 +1,23 @@
-@charset "UTF-8";
 html, body {
   margin: 0;
   height: 100%;
   padding: 0;
-  font-family: “Microsoft YaHei”; }
+  font-family: "Open Sans", sans-serif;
+  background-color: #E6E6E6; }
 
 header {
-  background-color: #109b9c;
+  background-color: #3a3636;
   height: 50px; }
+
+button, select {
+  font-size: 15px;
+  line-height: 20px;
+  border-radius: 4px; }
+
+nput:-webkit-autofill {
+  background-color: #FAFFBD;
+  background-image: none;
+  color: #000; }
 
 .main {
   display: flex;
@@ -33,19 +43,26 @@ header {
     flex: auto;
     margin: 20px;
     padding: 20px;
-    background-color: #caeff1; }
+    background-color: #fff; }
     .main .main-content form {
       margin: 0 0 0 50px; }
       .main .main-content form div {
-        margin: 5px 0; }
+        margin: 10px 0; }
         .main .main-content form div input {
           padding: 2px 0 2px 5px; }
+      .main .main-content form input {
+        font-size: 15px; }
+      .main .main-content form input[type=button] {
+        padding: 2px;
+        border-radius: 4px; }
     .main .main-content .runnging-task-block .runnging-task-item {
       margin: 0 0 0 5px; }
       .main .main-content .runnging-task-block .runnging-task-item hr {
         margin: 0; }
       .main .main-content .runnging-task-block .runnging-task-item .stausSpan:hover {
         cursor: pointer; }
+      .main .main-content .runnging-task-block .runnging-task-item .priority-star {
+        color: #d65412; }
       .main .main-content .runnging-task-block .runnging-task-item .currentStatus {
         color: #fff;
         background-color: #c37575;
@@ -58,5 +75,8 @@ header {
           border-bottom: 1px solid #ccc; }
           .main .main-content .runnging-task-block .runnging-task-item table tr td, .main .main-content .runnging-task-block .runnging-task-item table tr th {
             padding: 10px 0 5px 0; }
+            .main .main-content .runnging-task-block .runnging-task-item table tr td .detele-task, .main .main-content .runnging-task-block .runnging-task-item table tr th .detele-task {
+              background-color: #ff3737;
+              color: #fff; }
 
 /*# sourceMappingURL=page.css.map */

@@ -40,13 +40,22 @@ function createRunningRecord(recordList){
 	}
 	dateList.sort();
 	var statuList = ["进行中", "计划中", "已完成"];
+	var priorityStar = {
+		high: 3,
+		normal: 2,
+		low: 1
+	}
 	var addition;
 	$("#runnging-task").empty();
 	for(var index = dateList.length - 1; index >= 0; index--){
 		for(var _item of record[dateList[index]]){
 			var trItem;
 			trItem = "<tr id='" +  _item.uuid + "'>";
-			trItem += "<td>" + _item.prioriry + "</td>";
+			trItem += "<td title=" + _item.prioriry + ">" 
+			for(var starN = 0; starN < (priorityStar[_item.prioriry] || 0); starN++){
+				trItem += '<i class="fa fa-star priority-star"></i>'
+			}
+			trItem += "</td>";
 			trItem += "<td>" + _item.taskType + "</td>";
 			trItem += "<td>" + _item.taskDesc + "</td>";
 			trItem += "<td>" + dateList[index] + "</td>";
@@ -60,10 +69,10 @@ function createRunningRecord(recordList){
 					addition = "' ";
 				}
 
-				trItem += "<input  type='button' id=" + _item.uuid + " class='stausSpan " + addition + " value='" + _statusSpan + "'/>";
+				trItem += "<button id=" + _item.uuid + " class='stausSpan " + addition + " >" + _statusSpan + "</button>";
 			}
 			trItem += "</td>";
-			trItem += "<td><input type='button' onclick=deleteTask('" + _item.uuid + "') value='删除任务'></td>";
+			trItem += "<td><button class='detele-task' onclick=deleteTask('" + _item.uuid + "')>删除任务</button></td>";
 			trItem += "</tr>";
 			$("#runnging-task").append(trItem);
 		}
@@ -93,6 +102,10 @@ function changeStatus(event){
 }
 
 function deleteTask(uuid){
+	var confirmResult = confirm("确定要删除吗 ？");
+	if(!confirmResult){
+		return;
+	}
 	deleteElement(uuid)
 	$.ajax({
 		type: "GET",
