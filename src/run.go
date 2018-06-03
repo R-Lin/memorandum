@@ -165,7 +165,6 @@ func LoadLocalRecord(){
     }
     defer f.Close()
     rb := bufio.NewReader(f)
-    _jsonData := make(RecordItem, 0)
     for{
         line, err := rb.ReadString('\n')
         if err != nil{
@@ -177,8 +176,8 @@ func LoadLocalRecord(){
             break
         }
         line = strings.TrimSpace(line)
+        _jsonData := make(RecordItem, 0)
         _ = json.Unmarshal([]byte(line), &_jsonData)
-        fmt.Println(line)
         SaveRecord(_jsonData)
     }
 }
