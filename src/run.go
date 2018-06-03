@@ -44,7 +44,7 @@ func CronUpdateFile(){
         if err != nil{
             fmt.Println(err.Error())
         }
-        for key, v := range RECORD_SET{
+        for _, v := range RECORD_SET{
             _content, _ := json.Marshal(v)
             file.Write(_content)
             file.Write([]byte("\n"))

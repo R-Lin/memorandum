@@ -4,6 +4,7 @@
 *.dll
 *.so
 *.dylib
+data/working/records.txt
 *.scssc
 *.css.map
 *.swp

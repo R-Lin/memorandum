@@ -1,0 +1,62 @@
+@charset "UTF-8";
+html, body {
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  font-family: “Microsoft YaHei”; }
+
+header {
+  background-color: #109b9c;
+  height: 50px; }
+
+.main {
+  display: flex;
+  height: 100%; }
+  .main .side-bar {
+    background-color: #33999a7d;
+    width: 200px;
+    color: #fff;
+    height: 100%; }
+    .main .side-bar .inline-level .span-title {
+      padding: 10px 0 10px 30px;
+      background-color: #689596; }
+    .main .side-bar .inline-level .span-content ul {
+      margin: 0;
+      padding: 0; }
+    .main .side-bar .inline-level .span-content li {
+      list-style-type: none;
+      padding: 5px 0 5px 50px; }
+    .main .side-bar .inline-level .span-content li:hover {
+      background-color: #5f87888c;
+      cursor: pointer; }
+  .main .main-content {
+    flex: auto;
+    margin: 20px;
+    padding: 20px;
+    background-color: #caeff1; }
+    .main .main-content form {
+      margin: 0 0 0 50px; }
+      .main .main-content form div {
+        margin: 5px 0; }
+        .main .main-content form div input {
+          padding: 2px 0 2px 5px; }
+    .main .main-content .runnging-task-block .runnging-task-item {
+      margin: 0 0 0 5px; }
+      .main .main-content .runnging-task-block .runnging-task-item hr {
+        margin: 0; }
+      .main .main-content .runnging-task-block .runnging-task-item .stausSpan:hover {
+        cursor: pointer; }
+      .main .main-content .runnging-task-block .runnging-task-item .currentStatus {
+        color: #fff;
+        background-color: #c37575;
+        cursor: unset !important; }
+      .main .main-content .runnging-task-block .runnging-task-item table {
+        border-collapse: collapse;
+        width: 100%;
+        text-align: left; }
+        .main .main-content .runnging-task-block .runnging-task-item table tr {
+          border-bottom: 1px solid #ccc; }
+          .main .main-content .runnging-task-block .runnging-task-item table tr td, .main .main-content .runnging-task-block .runnging-task-item table tr th {
+            padding: 10px 0 5px 0; }
+
+/*# sourceMappingURL=page.css.map */
