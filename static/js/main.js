@@ -31,7 +31,7 @@ function createRunningRecord(recordList){
 	var record = {};
 	var dateList = [];
 	for(var i of recordList){
-		var date = getYMD(i.createTime);
+		var date = getYMD(i.modifyTime);
 		if(!record[date]){
 			dateList.push(date);
 			record[date] = [];
@@ -40,6 +40,7 @@ function createRunningRecord(recordList){
 	}
 	dateList.sort();
 	var statuList = ["进行中", "计划中", "已完成"];
+	var statusClass = ["class-running", "class-plan", "class-done"];
 	var priorityStar = {
 		high: 3,
 		normal: 2,
@@ -62,14 +63,14 @@ function createRunningRecord(recordList){
 			trItem += "<td title='切换任务状态' onclick='changeStatus(event)'>";
 
 			// 生成状态切换按钮
-			for(_statusSpan of statuList){
-				if (_statusSpan == _item.status){
-					addition = "currentStatus' disabled ";
+			for(var s_index = 0; s_index < statuList.length; s_index++){
+				if (statuList[s_index] == _item.status){
+					addition = statusClass[s_index] + "' disabled ";
 				}else{
 					addition = "' ";
 				}
 
-				trItem += "<button id=" + _item.uuid + " class='stausSpan " + addition + " >" + _statusSpan + "</button>";
+				trItem += "<button id=" + _item.uuid + " class='stausSpan " + addition + " >" + statuList[s_index] + "</button>";
 			}
 			trItem += "</td>";
 			trItem += "<td><button class='detele-task' onclick=deleteTask('" + _item.uuid + "')>删除任务</button></td>";
@@ -82,8 +83,12 @@ function createRunningRecord(recordList){
 
 function changeStatus(event){
 	event.preventDefault();
+	var comfirmResult = confirm("确定改状态么？");
+	if(!comfirmResult){
+		return;
+	}
 	var target = event.target;
-	if(target.tagName.toLowerCase() !== "input"){
+	if(target.tagName.toLowerCase() !== "button"){
 		return;
 	}
 	$.ajax({
@@ -92,7 +97,7 @@ function changeStatus(event){
 		type: "GET",
 		data: {
 			uuid: target.id,
-			status: target.value
+			status: target.innerText
 		},
 		success: function(data){
 			console.log("changeStatus", data);

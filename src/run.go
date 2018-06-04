@@ -9,6 +9,7 @@ import (
     "encoding/json"
     "time"
     "os"
+    "sort"
     "fmt"
 )
 
@@ -20,6 +21,20 @@ const (
 
 type RecordStruct map[string]map[string]interface{}
 type RecordItem map[string]interface{}
+
+// 排序
+type RecordItemSort []RecordItem
+func (r RecordItemSort) Len() int{
+    return len(r)
+}
+func (r RecordItemSort) Swap(i, j int){
+    r[i], r[j] = r[j], r[i]
+}
+func (r RecordItemSort) Less(i, j int) bool{
+    jValue, _:= r[j]["modifyTime"].(float64)
+    iValue, _:= r[i]["modifyTime"].(float64)
+    return jValue > iValue
+}
 
 var RECORD_SET RecordStruct = make(RecordStruct)
 
@@ -36,7 +51,7 @@ func Index(w http.ResponseWriter, r *http.Request){
 }
 func CronUpdateFile(){
     // 定时将内存的数据刷入硬盘
-    ticker := time.NewTicker(60 * time.Second)
+    ticker := time.NewTicker(60 * 30 * time.Second)
     for _ = range ticker.C{
         fmt.Println("Record Save Cron running....")
         file, err := os.OpenFile(RECORD_FILE, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0766)
@@ -72,6 +87,8 @@ func _showRecord(status string)[]RecordItem{
             result = append(result, v)
         }
     }
+
+    sort.Sort(RecordItemSort(result))
     return result
 }
 
@@ -92,6 +109,7 @@ func ChangeStatus(w http.ResponseWriter, r *http.Request){
     status := params["status"][0]
     if v, ok := RECORD_SET[uuid]; ok{
         v["status"] = status
+        v["modifyTime"] = time.Now().Unix()
         mesg["status"] = "success"
     }else{
         mesg["status"] = "error, no such uuid"
@@ -129,9 +147,10 @@ func AddTask(w http.ResponseWriter, r *http.Request){
     jsonData["createTime"] = createTime
     if v, err := jsonData["isStart"].(string); err{
         if v == "true"{
-            jsonData["startTime"] = createTime
+            jsonData["modifyTime"] = createTime
             jsonData["status"] = "进行中"
         } else{
+            jsonData["modifyTime"] = -1
             jsonData["status"] = "计划中"
         }
     }

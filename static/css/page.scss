@@ -7,6 +7,11 @@ html, body{
 	background-color: #E6E6E6;
 
 }
+* {
+
+  outline: none;
+
+}
 
 header{
 	background-color: #3a3636;
@@ -17,12 +22,33 @@ button, select{
     font-size: 15px;
     line-height: 20px;
     border-radius: 4px;
+    outline:none;
 }
 
 input:-webkit-autofill {
 	background-color: #FAFFBD;
 	background-image: none;
 	color: #000;
+}
+
+@mixin currentStatus(){
+	color: #fff;
+	cursor: unset !important;
+}
+
+.class-plan{
+	@include currentStatus;
+	background-color: #759ec3;
+}
+
+.class-running{
+	@include currentStatus;
+	background-color: #c37575;
+}
+
+.class-done{
+	@include currentStatus;
+	background-color: #76c375;
 }
 
 .main{
@@ -101,11 +127,7 @@ input:-webkit-autofill {
 	    		.priority-star{
 	    			color: #d65412
 	    		}
-	    		.currentStatus{
-	    			color: #fff;
-    				background-color: #c37575;
-    				cursor: unset !important;
-	    		}
+	    		
 	    		table{
 	    			border-collapse: collapse;
 	    			width: 100%;
