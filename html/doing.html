@@ -43,7 +43,7 @@
 		<select onchange="listTask(value)">
 			<option value="all">全部</option>
 			<option value="计划中">计划中</option>
-			<option value="已完成">已完成</option>
+			<!-- <option value="已完成">已完成</option> -->
 			<option value="进行中">进行中</option>
 		</select>
 	</label>
@@ -60,36 +60,6 @@
 				</tr>
 			</thead>
 			<tbody id="runnging-task">
-				<!--
-				<tr>
-					<td>高</td>
-					<td>SSAA</td>	
-					<td>统计 fuck 文件上传的文件大小分布</td>
-					<td>Running</td>
-					<td>取消任务</td>
-				</tr>
-				<tr>
-					<td>高</td>
-					<td>EQQQ</td>	
-					<td>测试这个好不好看</td>
-					<td>Running</td>
-					<td>取消任务</td>
-				</tr>
-				<tr>
-					<td>高</td>
-					<td>Test</td>	
-					<td>统计 fuck 文件上传的文件大小分布</td>
-					<td>Running</td>
-					<td>取消任务</td>
-				</tr>
-				<tr>
-					<td>高</td>
-					<td>SSSS</td>	
-					<td>统计 fuck 文件上传的文件大小分布</td>
-					<td>Running</td>
-					<td>取消任务</td>
-				</tr>
-				-->
 			</tbody>
 		</table>
 	
@@ -112,7 +82,7 @@
 			}
 		})
 	});
-	getRecordsList("all", createRunningRecord)
+	getRecordsList("all", createRunningRecord, false)
 	function addTask(event){
 		// action="/add_task" 
 		$("#addTask").show();

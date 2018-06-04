@@ -1,6 +1,27 @@
-$("#content").load("inline_content/doing")
 
 
+function loadContentPage(route){
+	switch(route){
+		case "route-all": 
+			$("#content").load("inline_content/doing");
+			break;
+		case "route-done":
+			$("#content").load("inline_content/done");
+			break;
+
+	}
+	
+}
+
+function routePage(event){
+	event.preventDefault();
+	var target = event.target;
+	if(target.tagName.toLowerCase() !== "li"){
+		return;
+	}
+	var page = target.id;
+	loadContentPage(page);
+}
 // 将通过 serialize 获取的对象列表，拼接成一个对象
 function formDataHandler(data){
 	var result = {};
@@ -13,7 +34,7 @@ function formDataHandler(data){
 }
 
 // 根据状态获取记录列表
-function getRecordsList(status, targetFunc){
+function getRecordsList(status, targetFunc, isDone){
 	$.ajax({
 		type: "GET",
 		dataType: "json",
@@ -21,13 +42,13 @@ function getRecordsList(status, targetFunc){
 		url: "/getRecord",
 		success: function(data){
 
-			targetFunc(data)
+			targetFunc(data, isDone)
 		}
 	})
 
 }
 
-function createRunningRecord(recordList){
+function createRunningRecord(recordList, isDone){
 	var record = {};
 	var dateList = [];
 	for(var i of recordList){
@@ -41,6 +62,13 @@ function createRunningRecord(recordList){
 	dateList.sort();
 	var statuList = ["进行中", "计划中", "已完成"];
 	var statusClass = ["class-running", "class-plan", "class-done"];
+	
+	if(isDone){
+		statuList.splice(0, 2);
+		statusClass.splice(0, 2);
+	}
+	
+
 	var priorityStar = {
 		high: 3,
 		normal: 2,
@@ -48,9 +76,21 @@ function createRunningRecord(recordList){
 	}
 	var addition;
 	$("#runnging-task").empty();
+
 	for(var index = dateList.length - 1; index >= 0; index--){
 		for(var _item of record[dateList[index]]){
 			var trItem;
+			if(isDone){
+				// 过滤掉未完成的
+				if(_item.status != "已完成"){
+					continue
+				}
+			}else{
+				// 过滤掉完成的
+				if(_item.status == "已完成"){
+					continue
+				}
+			}
 			trItem = "<tr id='" +  _item.uuid + "'>";
 			trItem += "<td title=" + _item.prioriry + ">" 
 			for(var starN = 0; starN < (priorityStar[_item.prioriry] || 0); starN++){
@@ -83,12 +123,13 @@ function createRunningRecord(recordList){
 
 function changeStatus(event){
 	event.preventDefault();
-	var comfirmResult = confirm("确定改状态么？");
-	if(!comfirmResult){
+	
+	var target = event.target;
+	if(!target || target.tagName.toLowerCase() !== "button"){
 		return;
 	}
-	var target = event.target;
-	if(target.tagName.toLowerCase() !== "button"){
+	var comfirmResult = confirm("确定改状态么？");
+	if(!comfirmResult){
 		return;
 	}
 	$.ajax({
