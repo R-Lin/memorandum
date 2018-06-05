@@ -1,0 +1,28 @@
+<hr>
+<div class="runnging-task-block" >
+	<div class="runnging-task-item">
+		<table>
+			<thead>
+				<tr>
+					<th>优先级</th>
+					<th>类别</th>
+					<th style="width:40%">任务描述</th>
+					<th>创建日期</th>
+					<th style="width:20%">状态</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="runnging-task">
+			</tbody>
+		</table>
+	
+	</div>
+</div>
+<script>
+	getRecordsList("已完成", createRunningRecord, true);
+	function addTask(event){
+		// action="/add_task" 
+		$("#addTask").show();
+
+	}
+</script>
