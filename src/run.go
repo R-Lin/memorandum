@@ -144,13 +144,12 @@ func AddTask(w http.ResponseWriter, r *http.Request){
     json.Unmarshal(con, &jsonData)
     createTime := time.Now().Unix()
     ret_mesg := make(map[string]string)
+    jsonData["modifyTime"] = createTime
     jsonData["createTime"] = createTime
     if v, err := jsonData["isStart"].(string); err{
         if v == "true"{
-            jsonData["modifyTime"] = createTime
             jsonData["status"] = "进行中"
         } else{
-            jsonData["modifyTime"] = -1
             jsonData["status"] = "计划中"
         }
     }

@@ -1,5 +1,4 @@
 
-
 function loadContentPage(route){
 	switch(route){
 		case "route-all": 
@@ -209,3 +208,8 @@ function S4() {
 function guid() {
    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+
+
+// -----------------------------
+

@@ -15,13 +15,13 @@
 		<div>
 			<label>
 				任务类别：
-				<input type="text" autofocus placeholder="请输入任务类别" required name="taskType">
+				<input type="text" autofocus placeholder="请输入任务类别" required name="taskType" autocomplete="off">
 			</label>
 		</div>
 		<div>
 			<label>
 				任务描述：
-				<input style="width:400px" type="text" placeholder="请输入任务描述" required name="taskDesc">
+				<input style="width:400px" type="text" placeholder="请输入任务描述" required name="taskDesc" autocomplete="off">
 			</label>				
 		</div>
 		<div>
@@ -80,7 +80,8 @@
 			success: function(data){
 				taskCleanAndHiden();
 			}
-		})
+		});
+		return false;
 	});
 	getRecordsList("all", createRunningRecord, false)
 	function addTask(event){
