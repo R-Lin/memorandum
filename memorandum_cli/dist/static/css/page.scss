@@ -1,0 +1,159 @@
+html, body{
+
+	margin: 0;
+	height: 100%;
+	padding: 0;
+	font-family: "Open Sans", sans-serif;
+	background-color: #E6E6E6;
+
+}
+* {
+
+  outline: none;
+
+}
+
+header{
+	background-color: #3a3636;
+	height: 50px;
+}
+
+button, select{
+    font-size: 15px;
+    line-height: 20px;
+    border-radius: 4px;
+    outline:none;
+}
+
+input:-webkit-autofill {
+	background-color: #FAFFBD;
+	background-image: none;
+	color: #000;
+}
+
+@mixin currentStatus(){
+	color: #fff;
+	cursor: unset !important;
+}
+
+.class-plan{
+	@include currentStatus;
+	background-color: #759ec3;
+}
+
+.class-running{
+	@include currentStatus;
+	background-color: #c37575;
+}
+
+.class-done{
+	@include currentStatus;
+	background-color: #76c375;
+}
+
+.main{
+	display: flex;
+	height: 100%;
+	.side-bar{
+		background-color: #33999a7d;
+	    width: 200px;
+	    color: #fff;
+	    height: 100%;
+
+	    .inline-level{
+
+	    	.span-title{
+	    		padding: 10px 0 10px 30px;
+	    		background-color: #689596;
+
+	    	}
+	    	.span-content{
+	    		ul{
+	    			margin: 0;
+	    			padding: 0;
+	    		}
+	    		li{
+	    			list-style-type: none;
+	    			padding: 5px 0 5px 50px;
+	    		}
+	    		li:hover{
+	    			background-color: #5f87888c;
+	    			cursor: pointer;
+
+	    		}
+	    	}
+	    }
+	}
+
+	.main-content{
+		flex: auto;
+		margin: 20px;
+	    padding: 20px;
+	    background-color: #fff;;
+
+	    form{
+	    	margin: 0 0 0 50px;
+	    	div{
+	    		margin: 10px 0;
+	    		input{
+    				padding: 2px 0 2px 5px;
+	    		}
+	    	}
+	    	input{
+	    		font-size: 15px;
+	    	}
+	    	input[type=button]{
+	    		padding: 2px;
+	    		border-radius: 4px;
+	    	}
+	    }
+	    
+	    .runnging-task-block{
+	    	.runnging-task-item{
+
+	    		margin: 0 0 0 5px;
+
+	    		hr{
+	    			margin: 0;
+	    		}
+	    		.stausSpan{
+
+	    		}
+
+	    		.stausSpan:hover{
+	    			cursor: pointer;
+
+	    		}
+	    		.priority-star{
+	    			color: #d65412
+	    		}
+	    		
+	    		table{
+	    			border-collapse: collapse;
+	    			width: 100%;
+	    			text-align: left;
+
+	    			tr{
+	    				border-bottom: 1px solid #ccc;
+
+	    				td,th{
+	    					padding: 10px 0 5px 0;
+	    					.detele-task{
+	    						background-color: #ff3737;
+    							color: #fff;
+	    					}
+	    				}
+
+
+	    			}
+
+
+	    		}
+
+
+	    	}
+
+	    }
+	}
+
+}
