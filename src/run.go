@@ -1,6 +1,5 @@
 package main
 import (
-    "html/template"
     "net/http"
     "io/ioutil"
     "io"
@@ -14,11 +13,9 @@ import (
 )
 
 const (
-    TEMPLATE_DIR = "./html/"
     DATA_BASEDIR = "./data/"
     RECORD_FILE = DATA_BASEDIR + "working/records.txt"
 )
-
 type RecordStruct map[string]map[string]interface{}
 type RecordItem map[string]interface{}
 
@@ -33,22 +30,11 @@ func (r RecordItemSort) Swap(i, j int){
 func (r RecordItemSort) Less(i, j int) bool{
     jValue, _:= r[j]["modifyTime"].(float64)
     iValue, _:= r[i]["modifyTime"].(float64)
-    return jValue > iValue
+    return jValue < iValue
 }
 
 var RECORD_SET RecordStruct = make(RecordStruct)
 
-func Index(w http.ResponseWriter, r *http.Request){
-    t, err := template.ParseFiles(TEMPLATE_DIR + "index.html")
-    if err != nil{
-        fmt.Println(err.Error())
-    }
-    s := map[string]string{
-        "name": "sd",
-        "fuck": "fuck",
-    }
-    t.Execute(w, s)
-}
 func CronUpdateFile(){
     // 定时将内存的数据刷入硬盘
     ticker := time.NewTicker(60 * 30 * time.Second)
@@ -81,8 +67,12 @@ func _showRecord(status string)[]RecordItem{
     result := make([]RecordItem, 0)
     for _, v := range RECORD_SET{
         if s_value, ok := v["status"].(string); ok{
-            if status != "all" && s_value != status{
+            if status == "undone" {
+               if s_value == "已完成"{
                 continue
+               }
+            }else if s_value != status{
+                    continue
             }
             result = append(result, v)
         }
@@ -98,6 +88,7 @@ func ShowRecord(w http.ResponseWriter, r *http.Request){
     status := params["status"][0]
     result = _showRecord(status)
     ss, _ := json.Marshal(result)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Write(ss)
 }
 
@@ -115,6 +106,7 @@ func ChangeStatus(w http.ResponseWriter, r *http.Request){
         mesg["status"] = "error, no such uuid"
     }
     result, _ := json.Marshal(mesg)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Write(result)
 
 }
@@ -133,6 +125,7 @@ func DelTask(w http.ResponseWriter, r *http.Request){
     _result, _ := json.Marshal(map[string]string{
         "status": status,
     })
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Write(_result)
 }
 
@@ -146,8 +139,8 @@ func AddTask(w http.ResponseWriter, r *http.Request){
     ret_mesg := make(map[string]string)
     jsonData["modifyTime"] = createTime
     jsonData["createTime"] = createTime
-    if v, err := jsonData["isStart"].(string); err{
-        if v == "true"{
+    if v, err := jsonData["isStart"].(bool); err{
+        if v{
             jsonData["status"] = "进行中"
         } else{
             jsonData["status"] = "计划中"
@@ -159,22 +152,10 @@ func AddTask(w http.ResponseWriter, r *http.Request){
         ret_mesg["status"] = "error"
     }
     _content, _ := json.Marshal(ret_mesg)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
     w.Write(_content)
 }
 
-
-func GetInlineContent(w http.ResponseWriter, r *http.Request){
-    pathSlice := strings.Split(r.URL.String(), "/")
-    path := pathSlice[len(pathSlice) - 1]
-    fmt.Println(r.URL)
-    targetFile := TEMPLATE_DIR + path + ".html"
-    if _, err := os.Stat(targetFile); err == nil{
-        content, _ := ioutil.ReadFile(targetFile)
-        w.Write(content)
-    }else{
-        w.Write([]byte("Not Such " + targetFile))
-    }
-}
 
 func LoadLocalRecord(){
     f, err := os.Open(RECORD_FILE)
@@ -216,6 +197,7 @@ func init(){
     LoadLocalRecord()
     go CronUpdateFile()
 }
+
 func main(){
     path, err := os.Getwd()
     if err != nil{
@@ -223,11 +205,9 @@ func main(){
     }
 
     statcFile := http.FileServer(http.Dir(path + "/static"))
-    http.HandleFunc("/index", Index)
     http.HandleFunc("/add_task", AddTask)
     http.HandleFunc("/del_task", DelTask)
     http.HandleFunc("/change_status", ChangeStatus)
-    http.HandleFunc("/inline_content/", GetInlineContent)
     http.HandleFunc("/getRecord", ShowRecord)
     http.Handle("/static/", http.StripPrefix("/static/", statcFile))
     fmt.Println("Current Path: ", path)
