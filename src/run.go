@@ -1,4 +1,4 @@
-package main
+package memorandum
 import (
     "net/http"
     "io/ioutil"
