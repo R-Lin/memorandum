@@ -5,6 +5,7 @@
     <div class='span-content' >
       <ul>
         <li v-for='(item, index) in nav.items'>
+            <i v-show="$route.path == '/' + item.url" class="fa item-chosen fa-arrow-right" aria-hidden="true"></i>
             <router-link :to='item.url'>{{item.label}}</router-link>
         </li>
       </ul>
@@ -17,11 +18,24 @@ export default {
   data () {
     var navMenu = [
       {
-        label: '工作',
+        label: '短期计划',
+        items: [
+          {
+            url: 'short_term_undone',
+            label: '所有计划'
+          },
+          {
+            url: 'short_term_done',
+            label: '已完成'
+          }
+        ]
+      },
+      {
+        label: '长期计划',
         items: [
           {
             url: 'undone',
-            label: '所有工作'
+            label: '所有计划'
           },
           {
             url: 'done',

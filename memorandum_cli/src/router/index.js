@@ -7,16 +7,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/undone',
+      path: '/short_term_undone',
       component: taskUndone
     },
     {
-      path: '/done',
+      path: '/short_term_done',
       component: taskDone
     },
     {  
         path:'*',  
-        redirect:"/undone"  
+        redirect:"/short_term_undone"  
     }  
   ]
 })

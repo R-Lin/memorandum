@@ -21,6 +21,6 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
     # ---------------------------
     
     # 后端
-    cd memorandum/bin
-    ./run
+    cd memorandum
+    ./bin/run
 ```

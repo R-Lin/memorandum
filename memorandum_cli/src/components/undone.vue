@@ -12,6 +12,14 @@
     </div>
     <div>
       <label>
+        马上开始：
+        <select v-model="formData.isStart">
+          <option v-for="item in isStartList" :value="item.value">{{item.name}}</option>
+        </select>
+      </label>
+    </div>
+    <div>
+      <label>
         任务类别：
         <input 
           type="text" 
@@ -22,26 +30,17 @@
           autocomplete="off">
       </label>
     </div>
+
     <div>
-      <label>
-        任务描述：
-        <input 
-          style="width:400px" 
-          type="text" 
+      <label style="display: block">任务描述：</label> 
+        <textarea 
           placeholder="请输入任务描述" 
           required="" 
           v-model="formData.taskDesc" 
-          autocomplete="off">
-      </label>        
+          autocomplete="off"></textarea>
+             
     </div>
-    <div>
-      <label>
-        马上开始：
-        <select v-model="formData.isStart">
-          <option v-for="item in isStartList" :value="item.value">{{item.name}}</option>
-        </select>
-      </label>
-    </div>
+    
     <input type="button" value="取消任务" @click="taskCleanAndHiden()">
     <input 
       type="button" 
@@ -49,6 +48,7 @@
       style="background-color: #c37574; color: #fff; border-radius: 4px" 
       value="添加任务">
   </form>
+  <hr>
   <task-list 
     :taskStatus="taskStatus" 
     :show-filter="showFilter" 
@@ -56,6 +56,7 @@
     :button-items="buttonItems">
     </task-list>
 </div>
+
 </template>
 
 <script>
@@ -70,7 +71,7 @@
       return {
         showForm: false,
         taskStatus: 'undone',
-        showFilter: true,
+        showFilter: false,
         buttonItems: [
           { name: '进行中', className: "class-running"},
           { name: '计划中', className: "class-plan"},

@@ -7,6 +7,7 @@ html, body{
 	background-color: #E6E6E6;
 
 }
+
 * {
 
   outline: none;
@@ -36,6 +37,12 @@ input:-webkit-autofill {
 	cursor: unset !important;
 }
 
+.item-chosen{
+	//background-color: #474c5e;
+	position: absolute;
+  left: 30px;
+  bottom: 9px;
+}
 .class-plan{
 	@include currentStatus;
 	background-color: #759ec3;
@@ -55,16 +62,19 @@ input:-webkit-autofill {
 	display: flex;
 	height: 100%;
 	.side-bar{
-		background-color: #33999a7d;
+			background-color: #363d4d;
 	    width: 200px;
 	    color: #fff;
 	    height: 100%;
 
+	    a{
+	    	color: #fff;
+	    }
 	    .inline-level{
 
 	    	.span-title{
 	    		padding: 10px 0 10px 30px;
-	    		background-color: #689596;
+	    		background-color: #474c5e;	
 
 	    	}
 	    	.span-content{
@@ -73,6 +83,7 @@ input:-webkit-autofill {
 	    			padding: 0;
 	    		}
 	    		li{
+	    			position: relative;
 	    			list-style-type: none;
 	    			padding: 5px 0 5px 50px;
 	    		}
@@ -86,7 +97,7 @@ input:-webkit-autofill {
 	}
 
 	.main-content{
-		flex: auto;
+		flex: 1;
 		margin: 20px;
 	    padding: 20px;
 	    background-color: #fff;;
@@ -105,6 +116,13 @@ input:-webkit-autofill {
 	    	input[type=button]{
 	    		padding: 2px;
 	    		border-radius: 4px;
+	    	}
+	    	textarea{
+	    		min-width: 70%;
+			    margin: 5px 0;
+			    padding: 5px 10px;
+			    font-size: 15px;
+			    min-height: 200px;
 	    	}
 	    }
 	    

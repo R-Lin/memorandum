@@ -1,6 +1,5 @@
 <template>
 <div class="runnging-task-block">
-  <hr>
   <label style="margin: 0 0 0 5px;" v-show="showFilter">任务状态：
     <select onchange="listTask(value)">
       <option value="all">全部</option>
@@ -35,6 +34,7 @@
             
             <button v-for="buttonItem in buttonItems"
               class="stausSpan"
+              :data-uuid="task.uuid"
               :class="[buttonItem.name == task.status ? buttonItem.className : '']"
               :disabled="buttonItem.name == task.status"
               >{{buttonItem.name}}</button>
@@ -77,7 +77,7 @@ export default {
       }
       var params = {
         params: {
-          uuid: target.id,
+          uuid: target.dataset.uuid,
           status: target.innerText
         }
       }

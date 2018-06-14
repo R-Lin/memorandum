@@ -23,6 +23,11 @@ input:-webkit-autofill {
   background-image: none;
   color: #000; }
 
+.item-chosen {
+  position: absolute;
+  left: 30px;
+  bottom: 9px; }
+
 .class-plan {
   color: #fff;
   cursor: unset !important;
@@ -42,24 +47,27 @@ input:-webkit-autofill {
   display: flex;
   height: 100%; }
   .main .side-bar {
-    background-color: #33999a7d;
+    background-color: #363d4d;
     width: 200px;
     color: #fff;
     height: 100%; }
+    .main .side-bar a {
+      color: #fff; }
     .main .side-bar .inline-level .span-title {
       padding: 10px 0 10px 30px;
-      background-color: #689596; }
+      background-color: #474c5e; }
     .main .side-bar .inline-level .span-content ul {
       margin: 0;
       padding: 0; }
     .main .side-bar .inline-level .span-content li {
+      position: relative;
       list-style-type: none;
       padding: 5px 0 5px 50px; }
     .main .side-bar .inline-level .span-content li:hover {
       background-color: #5f87888c;
       cursor: pointer; }
   .main .main-content {
-    flex: auto;
+    flex: 1;
     margin: 20px;
     padding: 20px;
     background-color: #fff; }
@@ -74,6 +82,12 @@ input:-webkit-autofill {
       .main .main-content form input[type=button] {
         padding: 2px;
         border-radius: 4px; }
+      .main .main-content form textarea {
+        min-width: 70%;
+        margin: 5px 0;
+        padding: 5px 10px;
+        font-size: 15px;
+        min-height: 200px; }
     .main .main-content .runnging-task-block .runnging-task-item {
       margin: 0 0 0 5px; }
       .main .main-content .runnging-task-block .runnging-task-item hr {
