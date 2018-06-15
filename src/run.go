@@ -1,62 +1,24 @@
-package memorandum
+package main
 import (
     "net/http"
     "io/ioutil"
-    "io"
-    "bufio"
-    "strings"
+   // "io"
+   // "bufio"
+   // "strings"
+    "gopkg.in/mgo.v2/bson"
     "encoding/json"
     "time"
     "os"
-    "sort"
+    //"sort"
     "fmt"
 )
 
-const (
-    DATA_BASEDIR = "./data/"
-    RECORD_FILE = DATA_BASEDIR + "working/records.txt"
-)
 type RecordStruct map[string]map[string]interface{}
 type RecordItem map[string]interface{}
 
-// 排序
-type RecordItemSort []RecordItem
-func (r RecordItemSort) Len() int{
-    return len(r)
-}
-func (r RecordItemSort) Swap(i, j int){
-    r[i], r[j] = r[j], r[i]
-}
-func (r RecordItemSort) Less(i, j int) bool{
-    jValue, _:= r[j]["modifyTime"].(float64)
-    iValue, _:= r[i]["modifyTime"].(float64)
-    return jValue < iValue
-}
-
-var RECORD_SET RecordStruct = make(RecordStruct)
-
-func CronUpdateFile(){
-    // 定时将内存的数据刷入硬盘
-    ticker := time.NewTicker(60 * 30 * time.Second)
-    for _ = range ticker.C{
-        fmt.Println("Record Save Cron running....")
-        file, err := os.OpenFile(RECORD_FILE, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0766)
-        defer file.Close()
-        if err != nil{
-            fmt.Println(err.Error())
-        }
-        for _, v := range RECORD_SET{
-            _content, _ := json.Marshal(v)
-            file.Write(_content)
-            file.Write([]byte("\n"))
-        }
-    }
-}
-
 func SaveRecord(data map[string]interface{}) bool{
     // 将记录存入 RECORD_SET 
-    if v, err := data["uuid"].(string); err{
-        RECORD_SET[v] = data
+    if err := SHORT_TERM_COL.Insert(data); err == nil{
         return true
     } else{
         return false
@@ -64,21 +26,18 @@ func SaveRecord(data map[string]interface{}) bool{
 }
 
 func _showRecord(status string)[]RecordItem{
-    result := make([]RecordItem, 0)
-    for _, v := range RECORD_SET{
-        if s_value, ok := v["status"].(string); ok{
-            if status == "undone" {
-               if s_value == "已完成"{
-                continue
-               }
-            }else if s_value != status{
-                    continue
-            }
-            result = append(result, v)
-        }
+    var result []RecordItem
+    specifyValue := make(bson.M)
+    if status == "已完成"{
+        specifyValue["$eq"] = status
+    }else{
+        specifyValue["$ne"] = "已完成"
     }
-
-    sort.Sort(RecordItemSort(result))
+    query := bson.M{
+        "status": specifyValue,
+    }
+    // Sort 加个 - 号就是代表倒序
+    SHORT_TERM_COL.Find(query).Sort("-modifyTime").All(&result)
     return result
 }
 
@@ -98,9 +57,16 @@ func ChangeStatus(w http.ResponseWriter, r *http.Request){
     mesg := make(map[string]string)
     uuid := params["uuid"][0]
     status := params["status"][0]
-    if v, ok := RECORD_SET[uuid]; ok{
-        v["status"] = status
-        v["modifyTime"] = time.Now().Unix()
+    selectorDsl := bson.M{
+        "uuid": uuid,
+    }
+    updateDsl := bson.M{
+        "$set": bson.M{
+            "status": status,
+            "modifyTime": time.Now().Unix(),
+        },
+    }
+    if err := SHORT_TERM_COL.Update(selectorDsl, updateDsl); err == nil{
         mesg["status"] = "success"
     }else{
         mesg["status"] = "error, no such uuid"
@@ -116,8 +82,7 @@ func DelTask(w http.ResponseWriter, r *http.Request){
     params := r.URL.Query()
     var status string
     uuid := params["uuid"][0]
-    if _, ok := RECORD_SET[uuid]; ok{
-        delete(RECORD_SET, uuid)
+    if err := SHORT_TERM_COL.Remove(bson.M{"uuid": uuid}); err == nil{
         status = "success"
     }else{
         status = "not such uuid"
@@ -156,46 +121,7 @@ func AddTask(w http.ResponseWriter, r *http.Request){
     w.Write(_content)
 }
 
-
-func LoadLocalRecord(){
-    f, err := os.Open(RECORD_FILE)
-    if err != nil{
-        fmt.Println(err.Error())
-    }
-    defer f.Close()
-    rb := bufio.NewReader(f)
-    for{
-        line, err := rb.ReadString('\n')
-        if err != nil{
-            if err == io.EOF {
-                fmt.Println("Record load completed!")
-            }else{
-                fmt.Println(err.Error())
-            }
-            break
-        }
-        line = strings.TrimSpace(line)
-        _jsonData := make(RecordItem, 0)
-        _ = json.Unmarshal([]byte(line), &_jsonData)
-        SaveRecord(_jsonData)
-    }
-}
-
 func init(){
-    // 建立目录
-    PLANS_DIRNAMES := []string{ "working", "template"}
-    for _, name := range PLANS_DIRNAMES{
-        _targetPath := DATA_BASEDIR + name
-        if _, err := os.Stat(_targetPath); err != nil{
-            if err := os.Mkdir(_targetPath, os.ModePerm); err != nil{
-                fmt.Println(err.Error())
-            }else{
-                fmt.Printf("已创建目录：%s\n", _targetPath)
-            }
-        }
-    }
-    LoadLocalRecord()
-    go CronUpdateFile()
 }
 
 func main(){
