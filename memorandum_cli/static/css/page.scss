@@ -60,12 +60,11 @@ input:-webkit-autofill {
 
 .main{
 	display: flex;
-	height: 100%;
+	min-height: 100%;
 	.side-bar{
 			background-color: #363d4d;
 	    width: 200px;
 	    color: #fff;
-	    height: 100%;
 
 	    a{
 	    	color: #fff;
@@ -120,7 +119,9 @@ input:-webkit-autofill {
 	    	textarea{
 	    		min-width: 70%;
 			    margin: 5px 0;
+			    color: #313030;
 			    padding: 5px 10px;
+			    line-height: 1.5;
 			    font-size: 15px;
 			    min-height: 200px;
 	    	}

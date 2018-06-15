@@ -35,18 +35,19 @@
       <label style="display: block">任务描述：</label> 
         <textarea 
           placeholder="请输入任务描述" 
-          required="" 
           v-model="formData.taskDesc" 
           autocomplete="off"></textarea>
              
     </div>
+    <div>
+      <input type="button" value="取消任务" @click="taskCleanAndHiden()">
+      <input 
+        type="button" 
+        @click="addTask()" 
+        style="background-color: #c37574; color: #fff; border-radius: 4px" 
+        value="添加任务">
+    </div>
     
-    <input type="button" value="取消任务" @click="taskCleanAndHiden()">
-    <input 
-      type="button" 
-      @click="addTask()" 
-      style="background-color: #c37574; color: #fff; border-radius: 4px" 
-      value="添加任务">
   </form>
   <hr>
   <task-list 
