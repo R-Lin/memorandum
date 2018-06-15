@@ -34,11 +34,11 @@ export default {
         label: '长期计划',
         items: [
           {
-            url: 'undone',
+            url: 'long_term_undone',
             label: '所有计划'
           },
           {
-            url: 'done',
+            url: 'long_term_done',
             label: '已完成'
           }
         ]

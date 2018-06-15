@@ -2,14 +2,10 @@ package main
 import (
     "net/http"
     "io/ioutil"
-   // "io"
-   // "bufio"
-   // "strings"
     "gopkg.in/mgo.v2/bson"
     "encoding/json"
     "time"
     "os"
-    //"sort"
     "fmt"
 )
 
