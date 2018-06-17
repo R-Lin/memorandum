@@ -87,9 +87,7 @@ export default {
             console.log(123123, err)
         })
       },
-    fullWidth: function (value){
-      return value < 10 ? "0" + value : value;
-    },
+    
     deleteTask: function (uuid){
       var confirmResult = confirm("确定要删除吗 ？");
       if(!confirmResult){
@@ -106,25 +104,7 @@ export default {
             console.log(123123, err)
         })
     },
-    getYMD: function(timeStamp){
-        var num2Week = {
-          0: "Sun",
-          1: "Mon",
-          2: "Tue",
-          3: "Wed",
-          4: "Thu",
-          5: "Fri",
-          6: "Sat"
-        }
-        var timeObj = new Date(timeStamp * 1000);
-        var result = [
-          timeObj.getFullYear(),
-          this.fullWidth(timeObj.getMonth() + 1),
-          this.fullWidth(timeObj.getDate()),
-          
-        ];
-        return result.join("-") + " " + num2Week[timeObj.getDay()];
-      },
+    
     getTasks: function(){
       var params = {
         params: {
@@ -133,7 +113,7 @@ export default {
       }
       axios.get('http://localhost:9999/getRecord', params).then(res =>{
           for(var item of res.data){
-            item['modifyTime'] = this.getYMD(item['modifyTime']);
+            item['modifyTime'] = getYMD(item['modifyTime']);
           }
           this.tasks = res.data;
         }).catch(function(err){

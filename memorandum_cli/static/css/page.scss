@@ -58,6 +58,68 @@ input:-webkit-autofill {
 	background-color: #76c375;
 }
 
+ #long-term-task{
+  .task-desc{
+    color: #a7a3a3;
+    margin: 5px 10px;
+  }
+  h3{
+  	display: inline-block;
+    margin: 0;
+    vertical-align: bottom;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 70%;
+    text-overflow: ellipsis;
+  }
+  ol{
+  	padding: 0 0 5px 10px;
+  	margin: 0;
+  }
+  .long-term-task_div{
+  	border-radius: 4px;
+    padding: 5px;
+
+    .long-term-task-edit{
+    	margin: 0 10px;
+  	}	
+  }
+  
+  .long-term-task_div:hover{
+  	background-color: #efefef;
+  }
+  li{
+  	list-style-type: none;
+  	margin: 0 0 10px 0;
+
+  	.step-task_span{
+  		vertical-align: top;
+  	  background-color: #ccc;
+	    color: #fff;
+	    font-size: 20px;
+	    padding: 0 5px;
+	    border-radius: 4px;
+  	}
+  	.step-task_desc{
+  		margin: 0 10px;
+  		display: inline-block;
+
+  		.step-task-desc_div{
+  			color: #7b7878;
+  			margin: 0;
+
+  			
+  		}
+  	}
+  }
+  li:nth-child(1){
+  		.step-task_span{
+  			background-color: #c37575;
+  		}
+  }
+
+}
+
 .main{
 	display: flex;
 	min-height: 100%;
@@ -126,7 +188,7 @@ input:-webkit-autofill {
 			    min-height: 200px;
 	    	}
 	    }
-	    
+	   
 	    .runnging-task-block{
 	    	.runnging-task-item{
 
